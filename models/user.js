@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const bCrypt = require("bcryptjs");
-// const timespan = require("jsonwebtoken/lib/timespan");
 
 const userSchema = new Schema({
     name: {
