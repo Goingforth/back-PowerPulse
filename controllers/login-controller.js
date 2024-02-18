@@ -1,10 +1,13 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
 require('dotenv').config();
 const secret = process.env.SECRET;
 
 const loginUser = async (req, res, next) => {
     const { email, password } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) { return res.status(400).json({ message: "Error validation", errors }) }
     const user = await User.findOne({ email });
 
     if (!user || !user.validPassword(password)) {
