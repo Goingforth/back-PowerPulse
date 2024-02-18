@@ -1,8 +1,11 @@
 const express = require("express");
+const cors = require('cors');
 const app = express();
 
 const morgan = require('morgan')
 const mongoose = require('mongoose');
+
+// const Filters = require("./models/filters");
 //const methodOverride = require('method-override');
 
 require('dotenv').config();
@@ -23,7 +26,7 @@ mongoose
 app.listen(process.env.PORT, (error) => {
     error ? console.log(error) : console.log(`listening port ${process.env.PORT}`);
 });
-
+app.use(cors());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: false }));
@@ -44,6 +47,17 @@ app.get('/', (req, res) => {
 app.use(registrationRoutes);
 app.use(loginRoutes);
 app.use(listRoutes);
+
+// app.get("/filters", async (req, res, next) => {
+//     try {
+//         const filters = await Filters.find();
+//         res.json(filters);
+//     }
+//     catch (error) {
+//         next(error);
+//     }
+
+// })
 
 
 app.use((req, res) => {

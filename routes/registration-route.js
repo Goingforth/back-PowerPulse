@@ -6,9 +6,11 @@ const { check } = require('express-validator');
 
 const { registrationUser } = require("../controllers/registration-controller");
 
-router.post('/registration', [check("username", "login is not empty").notEmpty(),
-check("password", "lenght should be from 4 to 10").isByteLength(min = 4, max = 10),
-check("email", "email is not email").isEmail()
-], registrationUser);
+router.post('/registration',
+    [check("name", "Name is not empty").notEmpty(),
+    check("password", "Password lenght should be min 6 ").isLength(min = 6),
+    check("email", "Email is not email format").matches(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
+    ],
+    registrationUser);
 
 module.exports = router;

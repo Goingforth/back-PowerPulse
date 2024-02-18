@@ -2,7 +2,7 @@ const User = require('../models/user');
 const { validationResult } = require('express-validator');
 
 const registrationUser = async (req, res, next) => {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) { return res.status(400).json({ message: "Error validation", errors }) }
     const user = await User.findOne({ email });
@@ -15,8 +15,10 @@ const registrationUser = async (req, res, next) => {
         });
     }
     try {
-        const newUser = new User({ username, email, password });
+        const newUser = new User({ name, email });
+
         newUser.setPassword(password);
+
         await newUser.save();
         res.status(201).json({
             status: 'success',
